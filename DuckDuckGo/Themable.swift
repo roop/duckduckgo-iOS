@@ -34,6 +34,10 @@ extension Themable where Self: UIViewController {
         navigationController?.navigationBar.barTintColor = theme.barBackgroundColor
         navigationController?.navigationBar.backgroundColor = theme.barBackgroundColor
         navigationController?.navigationBar.tintColor = theme.barTintColor
+
+        navigationController?.toolbar.barTintColor = theme.barBackgroundColor
+        navigationController?.toolbar.backgroundColor = theme.barBackgroundColor
+        navigationController?.toolbar.tintColor = theme.barTintColor
         
         var titleAttrs = navigationController?.navigationBar.titleTextAttributes ?? [:]
         titleAttrs[NSAttributedString.Key.foregroundColor] = theme.barTitleColor

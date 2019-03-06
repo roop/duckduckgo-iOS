@@ -182,6 +182,7 @@
 		857065761F6ADCF70044DCB1 /* EasylistStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857065751F6ADCF70044DCB1 /* EasylistStore.swift */; };
 		8577B0AC2225C778009CCC71 /* OnboardingSummary-iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8577B0AB2225C778009CCC71 /* OnboardingSummary-iPad.storyboard */; };
 		8577B0AE2225CA4F009CCC71 /* OnboardingSummaryPadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8577B0AD2225CA4F009CCC71 /* OnboardingSummaryPadViewController.swift */; };
+		8577B0B02230162F009CCC71 /* CloudSaveBookmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8577B0AF2230162F009CCC71 /* CloudSaveBookmarksViewController.swift */; };
 		857EEB7120934BB0008A005C /* UserDefaultsHomeRowCTAStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857EEB7020934BB0008A005C /* UserDefaultsHomeRowCTAStorageTests.swift */; };
 		857EEB752095FFAC008A005C /* HomeRowInstructionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857EEB742095FFAC008A005C /* HomeRowInstructionsViewController.swift */; };
 		85923C401FD2F8D10097204B /* PrivacyProtectionTrackerNetworksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85923C3F1FD2F8D10097204B /* PrivacyProtectionTrackerNetworksTests.swift */; };
@@ -716,6 +717,7 @@
 		857065751F6ADCF70044DCB1 /* EasylistStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasylistStore.swift; sourceTree = "<group>"; };
 		8577B0AB2225C778009CCC71 /* OnboardingSummary-iPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "OnboardingSummary-iPad.storyboard"; sourceTree = "<group>"; };
 		8577B0AD2225CA4F009CCC71 /* OnboardingSummaryPadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSummaryPadViewController.swift; sourceTree = "<group>"; };
+		8577B0AF2230162F009CCC71 /* CloudSaveBookmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSaveBookmarksViewController.swift; sourceTree = "<group>"; };
 		857A07A81F3AE3800035EFF4 /* SwiftRichString.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftRichString.framework; path = Carthage/Build/iOS/SwiftRichString.framework; sourceTree = "<group>"; };
 		857EEB7020934BB0008A005C /* UserDefaultsHomeRowCTAStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHomeRowCTAStorageTests.swift; sourceTree = "<group>"; };
 		857EEB742095FFAC008A005C /* HomeRowInstructionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRowInstructionsViewController.swift; sourceTree = "<group>"; };
@@ -2078,16 +2080,17 @@
 		F1668BCC1E798025008CBA04 /* Bookmarks */ = {
 			isa = PBXGroup;
 			children = (
-				F1E4A4431EE89460006F2EAE /* Bookmarks.storyboard */,
-				F103076A1E800DC30059FEC7 /* BookmarksManager.swift */,
-				F1D796F31E7C2A410019D451 /* BookmarksDelegate.swift */,
-				F1668BCD1E798081008CBA04 /* BookmarksViewController.swift */,
-				F103073A1E7C91330059FEC7 /* BookmarksDataSource.swift */,
 				F1D796EF1E7B07610019D451 /* BookmarkCell.swift */,
+				F1E4A4431EE89460006F2EAE /* Bookmarks.storyboard */,
+				85374D3421AC26E300FF5A1E /* BookmarksAndFavoritesDataSource.swift */,
+				F103073A1E7C91330059FEC7 /* BookmarksDataSource.swift */,
+				F1D796F31E7C2A410019D451 /* BookmarksDelegate.swift */,
+				F103076A1E800DC30059FEC7 /* BookmarksManager.swift */,
+				F1668BCD1E798081008CBA04 /* BookmarksViewController.swift */,
+				8577B0AF2230162F009CCC71 /* CloudSaveBookmarksViewController.swift */,
+				F103076C1E800F5C0059FEC7 /* EditBookmarkAlert.swift */,
 				F10307381E7C5E310059FEC7 /* NoBookmarksCell.swift */,
 				F1D796EB1E7AB8930019D451 /* SaveBookmarkActivity.swift */,
-				F103076C1E800F5C0059FEC7 /* EditBookmarkAlert.swift */,
-				85374D3421AC26E300FF5A1E /* BookmarksAndFavoritesDataSource.swift */,
 			);
 			name = Bookmarks;
 			sourceTree = "<group>";
@@ -3244,6 +3247,7 @@
 				85200F931FBA3BA4001AF290 /* PrivacyProtectionHeaderController.swift in Sources */,
 				F1D796F41E7C2A410019D451 /* BookmarksDelegate.swift in Sources */,
 				8565A3471FC87EC800239327 /* PrivacyProtectionPracticesController.swift in Sources */,
+				8577B0B02230162F009CCC71 /* CloudSaveBookmarksViewController.swift in Sources */,
 				F17669D71E43401C003D3222 /* MainViewController.swift in Sources */,
 				85374D3821AC419800FF5A1E /* NavigationSearchHomeViewSectionRenderer.swift in Sources */,
 				85200FA41FBC607E001AF290 /* NetworkLeaderboard.xcdatamodeld in Sources */,

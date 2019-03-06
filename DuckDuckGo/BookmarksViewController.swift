@@ -23,6 +23,7 @@ import Core
 class BookmarksViewController: UITableViewController {
 
     @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
 
     weak var delegate: BookmarksDelegate?
 
@@ -75,7 +76,11 @@ class BookmarksViewController: UITableViewController {
     }
 
     @IBAction func onEditPressed(_ sender: UIBarButtonItem) {
-        startEditing()
+        if editButton.title == "Done" {
+            finishEditing()
+        } else {
+            startEditing()
+        }
     }
 
     @IBAction func onDonePressed(_ sender: UIBarButtonItem) {
@@ -88,22 +93,27 @@ class BookmarksViewController: UITableViewController {
 
     private func startEditing() {
         tableView.isEditing = true
-        disableEditButton()
+        doneButton.title = ""
+        doneButton.isEnabled = false
+
+        editButton.title = "Done"
     }
 
     private func finishEditing() {
         tableView.isEditing = false
+        doneButton.title = "Done"
+        doneButton.isEnabled = true
+        
+        editButton.title = "Edit"
         refreshEditButton()
     }
 
     private func enableEditButton() {
         editButton.title = UserText.navigationTitleEdit
-        editButton.isEnabled = true
     }
 
     private func disableEditButton() {
         editButton.title = ""
-        editButton.isEnabled = false
     }
 
     fileprivate func showEditBookmarkAlert(for indexPath: IndexPath) {

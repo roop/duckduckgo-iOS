@@ -9,6 +9,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="proximanova-regular.otf">
+            <string>ProximaNova-Regular</string>
+        </array>
         <array key="proximanova-semibold.otf">
             <string>ProximaNova-Semibold</string>
         </array>
@@ -17,7 +20,7 @@
         <!--Navigation Controller-->
         <scene sceneID="eey-lA-vN2">
             <objects>
-                <navigationController id="LwJ-9t-P9z" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="LwJ-9t-P9z" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="UeR-D3-osZ">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -27,6 +30,10 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </textAttributes>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hL7-Wm-y6H">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="aqL-Wl-TTD" kind="relationship" relationship="rootViewController" id="mac-A2-jb1"/>
                     </connections>
@@ -115,28 +122,152 @@
                             <outlet property="delegate" destination="aqL-Wl-TTD" id="ZOo-G6-g4I"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Bookmarks" id="tVt-jc-YaY">
-                        <barButtonItem key="leftBarButtonItem" id="V4E-YN-xud">
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="CsV-hz-Dez"/>
+                        <barButtonItem title="Edit" id="BBE-3g-Dxu">
                             <connections>
-                                <action selector="onEditPressed:" destination="aqL-Wl-TTD" id="gaA-92-zAb"/>
+                                <action selector="onEditPressed:" destination="aqL-Wl-TTD" id="SgC-Vn-nxj"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="1oZ-re-yKW">
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" title="Bookmarks" id="tVt-jc-YaY">
+                        <barButtonItem key="leftBarButtonItem" image="upload" id="V4E-YN-xud">
+                            <connections>
+                                <segue destination="ISC-9s-ty4" kind="presentation" modalPresentationStyle="overCurrentContext" id="znu-eD-s7w"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="1oZ-re-yKW">
                             <connections>
                                 <action selector="onDonePressed:" destination="aqL-Wl-TTD" id="6RA-yx-ZhQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="editButton" destination="V4E-YN-xud" id="w11-ER-wKw"/>
+                        <outlet property="doneButton" destination="1oZ-re-yKW" id="Hmv-fe-iey"/>
+                        <outlet property="editButton" destination="BBE-3g-Dxu" id="ujh-W2-VYr"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MVk-wm-1t5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2049" y="805"/>
         </scene>
+        <!--Cloud Save Bookmarks View Controller-->
+        <scene sceneID="Z5z-de-Jii">
+            <objects>
+                <viewController modalTransitionStyle="crossDissolve" id="ISC-9s-ty4" customClass="CloudSaveBookmarksViewController" customModule="DuckDuckGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KJN-Vc-i3n"/>
+                        <viewControllerLayoutGuide type="bottom" id="Imh-7Z-eLV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wwU-FZ-dz8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ss1-Yk-56s">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="h5a-1L-l8Y">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="dark"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="gez-Dx-efw" appends="YES" id="m0H-YG-05F"/>
+                                </connections>
+                            </visualEffectView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ftr-sh-dvV">
+                                <rect key="frame" x="27.5" y="173.5" width="320" height="320"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uC7-cB-uDf">
+                                        <rect key="frame" x="12" y="274" width="296" height="38"/>
+                                        <color key="backgroundColor" red="0.4039215686" green="0.56078431370000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="38" id="BRt-Zu-INb"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="ProximaNova-Semibold" family="Proxima Nova" pointSize="16"/>
+                                        <state key="normal" title="Save to Cloud">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="handleButtonTap" destination="ISC-9s-ty4" eventType="touchUpInside" id="pgn-zB-aGX"/>
+                                        </connections>
+                                    </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="upload" translatesAutoresizingMaskIntoConstraints="NO" id="gBD-3H-RKP">
+                                        <rect key="frame" x="142" y="24" width="36" height="36"/>
+                                    </imageView>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Kby-sp-vKb">
+                                        <rect key="frame" x="141.5" y="141.5" width="37" height="37"/>
+                                        <color key="color" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </activityIndicatorView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dae-wy-kSS">
+                                        <rect key="frame" x="24" y="84" width="272" height="98"/>
+                                        <string key="text">Tap "Save to Cloud" to save your bookmarks privately in the cloud, then we'll show you a scannable code which you can use to synchronise with other devices.
+
+You can delete your bookmarks from the cloud any time!</string>
+                                        <fontDescription key="fontDescription" name="ProximaNova-Regular" family="Proxima Nova" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3mf-JN-qaM">
+                                        <rect key="frame" x="40" y="18" width="240" height="240"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="240" id="hGn-UU-LyX"/>
+                                            <constraint firstAttribute="width" constant="240" id="vzR-dg-ftw"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="uC7-cB-uDf" firstAttribute="centerX" secondItem="ftr-sh-dvV" secondAttribute="centerX" id="0Sh-vw-nHN"/>
+                                    <constraint firstItem="3mf-JN-qaM" firstAttribute="centerX" secondItem="ftr-sh-dvV" secondAttribute="centerX" id="13p-5U-dTs"/>
+                                    <constraint firstItem="Dae-wy-kSS" firstAttribute="width" secondItem="ftr-sh-dvV" secondAttribute="width" constant="-48" id="1qh-qd-NI1"/>
+                                    <constraint firstItem="Kby-sp-vKb" firstAttribute="centerX" secondItem="ftr-sh-dvV" secondAttribute="centerX" id="2oi-5J-ncl"/>
+                                    <constraint firstAttribute="height" constant="320" id="5Sc-C5-0Zr"/>
+                                    <constraint firstItem="Kby-sp-vKb" firstAttribute="centerY" secondItem="ftr-sh-dvV" secondAttribute="centerY" id="Ctk-bj-FhM"/>
+                                    <constraint firstItem="3mf-JN-qaM" firstAttribute="top" secondItem="ftr-sh-dvV" secondAttribute="top" constant="18" id="NGF-pw-l4X"/>
+                                    <constraint firstItem="Dae-wy-kSS" firstAttribute="centerX" secondItem="ftr-sh-dvV" secondAttribute="centerX" id="UeN-kd-ZtT"/>
+                                    <constraint firstAttribute="bottom" secondItem="uC7-cB-uDf" secondAttribute="bottom" constant="8" id="VXI-Qk-Mb2"/>
+                                    <constraint firstItem="gBD-3H-RKP" firstAttribute="centerX" secondItem="ftr-sh-dvV" secondAttribute="centerX" id="WOn-u7-vKm"/>
+                                    <constraint firstItem="gBD-3H-RKP" firstAttribute="top" secondItem="ftr-sh-dvV" secondAttribute="top" constant="24" id="bqn-2q-hBp"/>
+                                    <constraint firstItem="uC7-cB-uDf" firstAttribute="width" secondItem="ftr-sh-dvV" secondAttribute="width" constant="-24" id="dej-Lt-oap"/>
+                                    <constraint firstAttribute="width" constant="320" id="lbm-6L-yBq"/>
+                                    <constraint firstItem="Dae-wy-kSS" firstAttribute="top" secondItem="gBD-3H-RKP" secondAttribute="bottom" constant="24" id="wid-dC-Nbm"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="ftr-sh-dvV" firstAttribute="centerX" secondItem="wwU-FZ-dz8" secondAttribute="centerX" id="9hF-ZZ-yNA"/>
+                            <constraint firstItem="Ss1-Yk-56s" firstAttribute="width" secondItem="wwU-FZ-dz8" secondAttribute="width" id="9lu-Vu-25d"/>
+                            <constraint firstItem="Ss1-Yk-56s" firstAttribute="height" secondItem="wwU-FZ-dz8" secondAttribute="height" id="FQE-gu-sQR"/>
+                            <constraint firstItem="Ss1-Yk-56s" firstAttribute="centerY" secondItem="wwU-FZ-dz8" secondAttribute="centerY" id="V3g-oD-pNA"/>
+                            <constraint firstItem="ftr-sh-dvV" firstAttribute="centerY" secondItem="wwU-FZ-dz8" secondAttribute="centerY" id="ics-pY-dYY"/>
+                            <constraint firstItem="Ss1-Yk-56s" firstAttribute="centerX" secondItem="wwU-FZ-dz8" secondAttribute="centerX" id="z1h-gZ-ROP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="Kby-sp-vKb" id="UIy-aW-vkG"/>
+                        <outlet property="button" destination="uC7-cB-uDf" id="d0T-yE-BJs"/>
+                        <outlet property="infoLabel" destination="Dae-wy-kSS" id="7Bx-wu-PDw"/>
+                        <outlet property="uploadImage" destination="gBD-3H-RKP" id="pxb-iR-tvH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xp2-lT-S1I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="gez-Dx-efw">
+                    <connections>
+                        <action selector="close" destination="ISC-9s-ty4" id="U6d-i1-OQO"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="3040.8000000000002" y="804.64767616191909"/>
+        </scene>
     </scenes>
     <resources>
         <image name="GlobeSmall" width="24" height="24"/>
+        <image name="upload" width="36" height="36"/>
     </resources>
 </document>

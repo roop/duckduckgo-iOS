@@ -144,6 +144,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="cloudButton" destination="V4E-YN-xud" id="YLE-oD-zBt"/>
                         <outlet property="doneButton" destination="1oZ-re-yKW" id="Hmv-fe-iey"/>
                         <outlet property="editButton" destination="BBE-3g-Dxu" id="ujh-W2-VYr"/>
                     </connections>

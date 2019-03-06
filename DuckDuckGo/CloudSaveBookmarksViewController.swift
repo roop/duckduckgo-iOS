@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import Core
 
 class CloudSaveBookmarksViewController: UIViewController {
 
@@ -32,11 +34,18 @@ class CloudSaveBookmarksViewController: UIViewController {
 
     }
 
+    var bookmarks: [CloudSaveBookmark] {
+        return []
+    }
+
     var bookmarksCode: String?
     var busy = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        print("***", "test".data(using: .utf8)?.sha512)
+
         refreshUI()
     }
 
@@ -59,13 +68,36 @@ class CloudSaveBookmarksViewController: UIViewController {
         busy = true
         refreshUI()
 
-        
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
-            self?.bookmarksCode = "test"
-            self?.busy = false
-            self?.refreshUI()
+        let code = UUID().uuidString
+        guard let key = code.data(using: .utf8)?.sha512 else {
+            fatalError("Unable to create key for \(code)")
         }
+
+        let url = URL(string: "https://brindy.duckduckgo.com/bookmarks.js")!
+
+        let parameters: [String: Any] = [
+            "command": "write",
+            "objectKey": key,
+            "obj": bookmarks
+        ]
+
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil)
+            .responseData(queue: DispatchQueue.main) { [weak self] response in
+
+                if response.error != nil {
+                    print("***", response.error)
+                    self?.view.makeToast("Failed to save bookmarks, try again later.")
+                    return
+                }
+
+                if response.data != nil {
+                    self?.bookmarksCode = key
+                }
+
+                self?.busy = false
+                self?.refreshUI()
+        }
+
     }
 
     func updateQRCode() {
@@ -92,3 +124,25 @@ class CloudSaveBookmarksViewController: UIViewController {
     }
 
 }
+
+struct CloudSaveBookmark: Codable {
+
+    let title: String
+    let url: String
+
+}
+
+struct CloudSaveBookmarksObject: Codable {
+
+    let bookmark: [CloudSaveBookmark]
+
+}
+
+struct CloudSave: Codable {
+
+    let command: String
+    let objectKey: String
+    let obj: CloudSaveBookmarksObject
+
+}
+

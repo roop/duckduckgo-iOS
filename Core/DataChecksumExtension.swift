@@ -22,14 +22,18 @@ import CommonCrypto
 
 extension Data {
     
-    var sha256: String {
+    public var sha256: String {
         var hash = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
         let dataBytes = [UInt8](self)
         CC_SHA256(dataBytes, CC_LONG(self.count), &hash)
-        let output = NSMutableString(capacity: Int(CC_SHA1_DIGEST_LENGTH))
-        for byte in hash {
-            output.appendFormat("%02x", byte)
-        }
-        return output as String
+        return hash.map { String(format: "%02x", arguments: [ $0 ]) }.joined()
     }
+
+    public var sha512: String {
+        var hash = [UInt8](repeating: 0, count: Int(CC_SHA512_DIGEST_LENGTH))
+        let dataBytes = [UInt8](self)
+        CC_SHA512(dataBytes, CC_LONG(self.count), &hash)
+        return hash.map { String(format: "%02x", arguments: [ $0 ]) }.joined()
+    }
+
 }

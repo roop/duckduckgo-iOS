@@ -24,6 +24,7 @@ class BookmarksViewController: UITableViewController {
 
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var cloudButton: UIBarButtonItem!
 
     weak var delegate: BookmarksDelegate?
 
@@ -37,6 +38,9 @@ class BookmarksViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        cloudButton.isEnabled = !dataSource.isEmpty
+
         addAplicationActiveObserver()
         configureTableView()
         refreshEditButton()

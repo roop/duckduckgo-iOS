@@ -18,13 +18,15 @@ class CloudSaveBookmarksViewController: UIViewController {
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var qrcodeImage: UIImageView!
 
+    var bookmarksManager = BookmarksManager()
+
     @IBAction func close() {
         dismiss(animated: true)
     }
 
     @IBAction func handleButtonTap() {
 
-        if bookmarksCode != nil {
+        if bookmarksManager.code != nil {
 
             // prompt to confirm
 
@@ -34,18 +36,11 @@ class CloudSaveBookmarksViewController: UIViewController {
 
     }
 
-    var bookmarks: [CloudSaveBookmark] {
-        return []
-    }
-
-    var bookmarksCode: String?
     var busy = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print("***", "test".data(using: .utf8)?.sha512)
-
+        print("***", bookmarksManager.code ?? "no code")
         refreshUI()
     }
 
@@ -65,55 +60,52 @@ class CloudSaveBookmarksViewController: UIViewController {
     }
 
     func saveToCloud() {
+
         busy = true
         refreshUI()
 
-        let code = UUID().uuidString
-        guard let key = code.data(using: .utf8)?.sha512 else {
-            fatalError("Unable to create key for \(code)")
-        }
+        let code = bookmarksManager.code ?? UUID().uuidString
 
-        let url = URL(string: "https://brindy.duckduckgo.com/bookmarks.js")!
-
-        let parameters: [String: Any] = [
-            "command": "write",
-            "objectKey": key,
-            "obj": bookmarks
-        ]
-
-        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil)
-            .responseData(queue: DispatchQueue.main) { [weak self] response in
-
-                if response.error != nil {
-                    print("***", response.error)
-                    self?.view.makeToast("Failed to save bookmarks, try again later.")
-                    return
-                }
-
-                if response.data != nil {
-                    self?.bookmarksCode = key
-                }
-
-                self?.busy = false
-                self?.refreshUI()
+        bookmarksManager.saveToCloud(withCode: code) { [weak self] success in
+            if !success {
+                self?.view.makeToast("Failed to save bookmarks, try again later.")
+            }
+            self?.busy = false
+            self?.refreshUI()
         }
 
     }
 
     func updateQRCode() {
-         // show it if we have one
+        guard let code = bookmarksManager.code else { return }
+        qrcodeImage.image = generateQRCode(from: code)
+    }
+
+    func generateQRCode(from string: String) -> UIImage? {
+        let data = string.data(using: String.Encoding.ascii)
+
+        if let filter = CIFilter(name: "CIQRCodeGenerator") {
+            filter.setValue(data, forKey: "inputMessage")
+            let transform = CGAffineTransform(scaleX: 3, y: 3)
+
+            if let output = filter.outputImage?.transformed(by: transform) {
+                return UIImage(ciImage: output)
+            }
+        }
+
+        return nil
     }
 
     func updateInfo() {
-        infoLabel.isHidden = busy || bookmarksCode != nil
-        uploadImage.isHidden = busy || bookmarksCode != nil
+        infoLabel.isHidden = busy || bookmarksManager.code != nil
+        uploadImage.isHidden = busy || bookmarksManager.code != nil
     }
 
     func updateButton() {
 
         button.isHidden = busy
 
-        if bookmarksCode != nil {
+        if bookmarksManager.code != nil {
             button.backgroundColor = UIColor.red
             button.setTitle("Delete from Cloud", for: .normal)
         } else {
@@ -145,4 +137,3 @@ struct CloudSave: Codable {
     let obj: CloudSaveBookmarksObject
 
 }
-

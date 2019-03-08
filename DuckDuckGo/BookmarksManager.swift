@@ -18,13 +18,28 @@
 //
 
 import Core
+import Alamofire
 
 class BookmarksManager {
+
+    let cloudSaveCodeKey = "com.duckduckgo.bookmarks.cloudsave.code"
 
     private var dataStore: BookmarkStore
 
     init(dataStore: BookmarkStore = BookmarkUserDefaults()) {
         self.dataStore = dataStore
+    }
+
+    var code: String? {
+
+        get {
+            return UserDefaults().string(forKey: cloudSaveCodeKey)
+        }
+
+        set {
+            UserDefaults().set(newValue, forKey: cloudSaveCodeKey)
+        }
+
     }
 
     var bookmarksCount: Int {
@@ -51,10 +66,46 @@ class BookmarksManager {
 
     func save(bookmark: Link) {
         dataStore.addBookmark(bookmark)
+        saveToCloud()
     }
 
     func save(favorite: Link) {
         dataStore.addFavorite(favorite)
+    }
+
+    func saveToCloud() {
+        guard let code = code else { return }
+        saveToCloud(withCode: code) { _ in }
+    }
+    
+    func saveToCloud(withCode code: String, completion: @escaping (Bool) -> Void) {
+
+        guard let key = code.data(using: .utf8)?.sha512 else {
+            fatalError("Unable to create key for \(code)")
+        }
+
+        let bookmarks = dataStore.bookmarks.map { [
+            "title": $0.title ?? $0.url.host ?? $0.url.absoluteString,
+            "url": $0.url.absoluteString
+            ] }
+
+        let url = URL(string: "https://brindy.duckduckgo.com/bookmarks.js")!
+
+        let parameters: [String: Any] = [
+            "command": "write",
+            "objectKey": key,
+            "obj": bookmarks
+        ]
+
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil)
+            .responseData(queue: DispatchQueue.main) { response in
+                let success = response.error == nil
+                if success {
+                    self.code = code
+                }
+                completion(success)
+        }
+
     }
 
     func moveFavorite(at favoriteIndex: Int, toBookmark bookmarkIndex: Int) {
@@ -71,6 +122,7 @@ class BookmarksManager {
         
         dataStore.bookmarks = bookmarks
         dataStore.favorites = favorites
+        saveToCloud()
     }
 
     func moveFavorite(at fromIndex: Int, to toIndex: Int) {
@@ -94,6 +146,7 @@ class BookmarksManager {
         
         dataStore.bookmarks = bookmarks
         dataStore.favorites = favorites
+        saveToCloud()
     }
     
     func moveBookmark(at fromIndex: Int, to toIndex: Int) {
@@ -101,12 +154,14 @@ class BookmarksManager {
         let link = bookmarks.remove(at: fromIndex)
         bookmarks.insert(link, at: toIndex)
         dataStore.bookmarks = bookmarks
+        saveToCloud()
     }
 
     func deleteBookmark(at index: Int) {
         var bookmarks = dataStore.bookmarks
         bookmarks.remove(at: index)
         dataStore.bookmarks = bookmarks
+        saveToCloud()
     }
 
     func deleteFavorite(at index: Int) {
@@ -127,6 +182,7 @@ class BookmarksManager {
         _ = bookmarks.remove(at: index)
         bookmarks.insert(link, at: index)
         dataStore.bookmarks = bookmarks
+        saveToCloud()
     }
 
     private func indexOfBookmark(url: URL) -> Int? {

@@ -254,6 +254,7 @@ You can delete your bookmarks from the cloud any time!</string>
                         <outlet property="activityIndicator" destination="Kby-sp-vKb" id="UIy-aW-vkG"/>
                         <outlet property="button" destination="uC7-cB-uDf" id="d0T-yE-BJs"/>
                         <outlet property="infoLabel" destination="Dae-wy-kSS" id="7Bx-wu-PDw"/>
+                        <outlet property="qrcodeImage" destination="3mf-JN-qaM" id="6bv-wc-ald"/>
                         <outlet property="uploadImage" destination="gBD-3H-RKP" id="pxb-iR-tvH"/>
                     </connections>
                 </viewController>

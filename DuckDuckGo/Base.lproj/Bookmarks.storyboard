@@ -221,6 +221,13 @@ You can delete your bookmarks from the cloud any time!</string>
                                             <constraint firstAttribute="width" constant="240" id="vzR-dg-ftw"/>
                                         </constraints>
                                     </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="p3g-Pt-cru">
+                                        <rect key="frame" x="130" y="108" width="60" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="ARN-lC-O6j"/>
+                                            <constraint firstAttribute="height" constant="60" id="cHa-YP-U5N"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -231,11 +238,13 @@ You can delete your bookmarks from the cloud any time!</string>
                                     <constraint firstAttribute="height" constant="320" id="5Sc-C5-0Zr"/>
                                     <constraint firstItem="Kby-sp-vKb" firstAttribute="centerY" secondItem="ftr-sh-dvV" secondAttribute="centerY" id="Ctk-bj-FhM"/>
                                     <constraint firstItem="3mf-JN-qaM" firstAttribute="top" secondItem="ftr-sh-dvV" secondAttribute="top" constant="18" id="NGF-pw-l4X"/>
+                                    <constraint firstItem="p3g-Pt-cru" firstAttribute="centerX" secondItem="3mf-JN-qaM" secondAttribute="centerX" id="OKP-pn-Nlr"/>
                                     <constraint firstItem="Dae-wy-kSS" firstAttribute="centerX" secondItem="ftr-sh-dvV" secondAttribute="centerX" id="UeN-kd-ZtT"/>
                                     <constraint firstAttribute="bottom" secondItem="uC7-cB-uDf" secondAttribute="bottom" constant="8" id="VXI-Qk-Mb2"/>
                                     <constraint firstItem="gBD-3H-RKP" firstAttribute="centerX" secondItem="ftr-sh-dvV" secondAttribute="centerX" id="WOn-u7-vKm"/>
                                     <constraint firstItem="gBD-3H-RKP" firstAttribute="top" secondItem="ftr-sh-dvV" secondAttribute="top" constant="24" id="bqn-2q-hBp"/>
                                     <constraint firstItem="uC7-cB-uDf" firstAttribute="width" secondItem="ftr-sh-dvV" secondAttribute="width" constant="-24" id="dej-Lt-oap"/>
+                                    <constraint firstItem="p3g-Pt-cru" firstAttribute="centerY" secondItem="3mf-JN-qaM" secondAttribute="centerY" id="fRy-E4-bgF"/>
                                     <constraint firstAttribute="width" constant="320" id="lbm-6L-yBq"/>
                                     <constraint firstItem="Dae-wy-kSS" firstAttribute="top" secondItem="gBD-3H-RKP" secondAttribute="bottom" constant="24" id="wid-dC-Nbm"/>
                                 </constraints>
@@ -253,6 +262,7 @@ You can delete your bookmarks from the cloud any time!</string>
                     <connections>
                         <outlet property="activityIndicator" destination="Kby-sp-vKb" id="UIy-aW-vkG"/>
                         <outlet property="button" destination="uC7-cB-uDf" id="d0T-yE-BJs"/>
+                        <outlet property="daxImage" destination="p3g-Pt-cru" id="KFU-SQ-kSt"/>
                         <outlet property="infoLabel" destination="Dae-wy-kSS" id="7Bx-wu-PDw"/>
                         <outlet property="qrcodeImage" destination="3mf-JN-qaM" id="6bv-wc-ald"/>
                         <outlet property="uploadImage" destination="gBD-3H-RKP" id="pxb-iR-tvH"/>
@@ -270,6 +280,7 @@ You can delete your bookmarks from the cloud any time!</string>
     </scenes>
     <resources>
         <image name="GlobeSmall" width="24" height="24"/>
+        <image name="Logo" width="119" height="119"/>
         <image name="upload" width="36" height="36"/>
     </resources>
 </document>

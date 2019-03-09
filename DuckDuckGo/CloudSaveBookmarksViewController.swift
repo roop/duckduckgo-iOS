@@ -17,6 +17,7 @@ class CloudSaveBookmarksViewController: UIViewController {
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var qrcodeImage: UIImageView!
+    @IBOutlet weak var daxImage: UIImageView!
 
     var bookmarksManager = BookmarksManager()
 
@@ -28,7 +29,7 @@ class CloudSaveBookmarksViewController: UIViewController {
 
         if bookmarksManager.code != nil {
 
-            // prompt to confirm
+            promptToDelete()
 
         } else {
             saveToCloud()
@@ -97,8 +98,11 @@ class CloudSaveBookmarksViewController: UIViewController {
     }
 
     func updateInfo() {
-        infoLabel.isHidden = busy || bookmarksManager.code != nil
-        uploadImage.isHidden = busy || bookmarksManager.code != nil
+        let hasCode = bookmarksManager.code != nil
+
+        daxImage.isHidden = !hasCode
+        infoLabel.isHidden = busy || hasCode
+        uploadImage.isHidden = busy || hasCode
     }
 
     func updateButton() {
@@ -113,6 +117,20 @@ class CloudSaveBookmarksViewController: UIViewController {
             button.setTitle("Save to Cloud", for: .normal)
         }
 
+    }
+
+    func promptToDelete() {
+        let alert = UIAlertController(title: "Please confirm",
+                                      message: "Do you want to delete your bookmarks from the private cloud?",
+                                      preferredStyle: .alert)
+        alert.addAction(title: "Yes, please", style: .destructive) { [weak self] in
+            self?.bookmarksManager.deleteFromCloud()
+            self?.dismiss(animated: true)
+        }
+
+        alert.addAction(title: "No, thanks")
+
+        present(controller: alert, fromView: button)
     }
 
 }

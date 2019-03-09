@@ -77,7 +77,31 @@ class BookmarksManager {
         guard let code = code else { return }
         saveToCloud(withCode: code) { _ in }
     }
-    
+
+    func deleteFromCloud() {
+
+        guard let code = code else { return }
+
+        guard let key = code.data(using: .utf8)?.sha512 else {
+            fatalError("Unable to create key for \(code)")
+        }
+
+        let url = URL(string: "https://brindy.duckduckgo.com/bookmarks.js")!
+
+        let parameters: [String: Any] = [
+            "command": "delete",
+            "objectKey": key
+        ]
+
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil)
+            .responseData(queue: DispatchQueue.main) { [weak self] _ in
+
+            BookmarksManager().code = nil
+
+        }
+
+    }
+
     func saveToCloud(withCode code: String, completion: @escaping (Bool) -> Void) {
 
         guard let key = code.data(using: .utf8)?.sha512 else {

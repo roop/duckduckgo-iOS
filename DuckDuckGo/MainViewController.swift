@@ -51,6 +51,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var findInPageView: FindInPageView!
     @IBOutlet weak var findInPageBottomLayoutConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var longPressProgressContainer: UIView!
+    
     weak var notificationView: NotificationView?
 
     var omniBar: OmniBar!
@@ -829,16 +831,30 @@ extension MainViewController: TabSwitcherButtonDelegate {
 extension MainViewController: GestureToolbarButtonDelegate {
     
     func singleTapDetected(in sender: GestureToolbarButton) {
+        sender.progressView.removeFromSuperview()
         Pixel.fire(pixel: .tabBarBookmarksPressed)
         onBookmarksPressed()
     }
     
     func longPressDetected(in sender: GestureToolbarButton) {
+        sender.progressView.removeFromSuperview()
         guard currentTab != nil else {
             view.showBottomToast(UserText.webSaveBookmarkNone)
             return
         }
         currentTab!.promptSaveBookmarkAction()
+    }
+    
+    func longPressStarted(in sender: GestureToolbarButton) {
+        print("***", #function)
+        view.addSubview(sender.progressView)
+        sender.progressView.center = view.center
+        sender.progressView.play()
+    }
+    
+    func longPressCanceled(in sender: GestureToolbarButton) {
+        print("***", #function)
+        sender.progressView.removeFromSuperview()
     }
     
 }

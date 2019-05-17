@@ -20,9 +20,10 @@
 import UIKit
 import Core
 
-class BookmarksViewController: UITableViewController {
+class BookmarksViewController: UIViewController {
 
     @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet weak var tableView: UITableView!
 
     weak var delegate: BookmarksDelegate?
     
@@ -34,29 +35,12 @@ class BookmarksViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         addAplicationActiveObserver()
         configureTableView()
         refreshEditButton()
         
         applyTheme(ThemeManager.shared.currentTheme)
-    }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.isEditing {
-            showEditBookmarkAlert(for: indexPath)
-        } else if let link = dataSource.link(at: indexPath) {
-            selectLink(link)
-        }
-    }
-    
-    @available(iOS 11.0, *)
-    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let shareContextualAction = UIContextualAction(style: .normal, title: UserText.actionShare) { (_, _, completionHandler) in
-            self.showShareSheet(for: indexPath)
-            completionHandler(true)
-        }
-        shareContextualAction.backgroundColor = UIColor.cornflowerBlue
-        return UISwipeActionsConfiguration(actions: [shareContextualAction])
     }
 
     private func addAplicationActiveObserver() {
@@ -67,6 +51,7 @@ class BookmarksViewController: UITableViewController {
     }
 
     private func configureTableView() {
+        tableView.delegate = self
         tableView.dataSource = dataSource
     }
 
@@ -150,9 +135,33 @@ class BookmarksViewController: UITableViewController {
 
 }
 
+extension BookmarksViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.isEditing {
+            showEditBookmarkAlert(for: indexPath)
+        } else if let link = dataSource.link(at: indexPath) {
+            selectLink(link)
+        }
+    }
+
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shareContextualAction = UIContextualAction(style: .normal, title: UserText.actionShare) { (_, _, completionHandler) in
+            self.showShareSheet(for: indexPath)
+            completionHandler(true)
+        }
+        shareContextualAction.backgroundColor = UIColor.cornflowerBlue
+        return UISwipeActionsConfiguration(actions: [shareContextualAction])
+    }
+
+}
+
 extension BookmarksViewController: Themable {
     
     func decorate(with theme: Theme) {
+        view.backgroundColor = theme.backgroundColor
+
         decorateNavigationBar(with: theme)
         
         tableView.separatorColor = theme.tableCellSeparatorColor

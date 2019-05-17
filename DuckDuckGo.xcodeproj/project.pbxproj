@@ -234,6 +234,7 @@
 		85C743902154E981005CF998 /* GradeCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C7438F2154E981005CF998 /* GradeCache.swift */; };
 		85C9E5F521B422D300460EBC /* BookmarksManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C9E5F421B422D300460EBC /* BookmarksManagerTests.swift */; };
 		85C9E5F821B4232A00460EBC /* HomePageConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C9E5F721B4232A00460EBC /* HomePageConfigurationTests.swift */; };
+		85CC2577228ECF15008424DC /* TagSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CC2576228ECF15008424DC /* TagSelectorViewController.swift */; };
 		85CC936E203C402C00690089 /* SpeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CC936D203C402C00690089 /* SpeedTests.swift */; };
 		85CC9376203C42A500690089 /* speed_test_sites.json in Resources */ = {isa = PBXBuildFile; fileRef = 85CC9375203C42A500690089 /* speed_test_sites.json */; };
 		85CE790721E8A9F600607B91 /* EmptySectionRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CE790621E8A9F600607B91 /* EmptySectionRenderer.swift */; };
@@ -789,6 +790,7 @@
 		85C7438F2154E981005CF998 /* GradeCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradeCache.swift; sourceTree = "<group>"; };
 		85C9E5F421B422D300460EBC /* BookmarksManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksManagerTests.swift; sourceTree = "<group>"; };
 		85C9E5F721B4232A00460EBC /* HomePageConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageConfigurationTests.swift; sourceTree = "<group>"; };
+		85CC2576228ECF15008424DC /* TagSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSelectorViewController.swift; sourceTree = "<group>"; };
 		85CC936B203C402C00690089 /* SpeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85CC936D203C402C00690089 /* SpeedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedTests.swift; sourceTree = "<group>"; };
 		85CC936F203C402C00690089 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -2142,6 +2144,7 @@
 				F1D796EB1E7AB8930019D451 /* SaveBookmarkActivity.swift */,
 				F103076C1E800F5C0059FEC7 /* EditBookmarkAlert.swift */,
 				85374D3421AC26E300FF5A1E /* BookmarksAndFavoritesDataSource.swift */,
+				85CC2576228ECF15008424DC /* TagSelectorViewController.swift */,
 			);
 			name = Bookmarks;
 			sourceTree = "<group>";
@@ -3288,6 +3291,7 @@
 				9817C9C321EF594700884F65 /* AutoClear.swift in Sources */,
 				85200FA81FBDE472001AF290 /* UIColorPrivacyProtectionExtension.swift in Sources */,
 				85EE7F572246685B000FE757 /* WebContainerViewController.swift in Sources */,
+				85CC2577228ECF15008424DC /* TagSelectorViewController.swift in Sources */,
 				F1CA3C391F045885005FADB3 /* PrivacyUserDefaults.swift in Sources */,
 				8563A03C1F9288D600F04442 /* BrowserChromeManager.swift in Sources */,
 				980891A32237146B00313A70 /* Feedback.swift in Sources */,

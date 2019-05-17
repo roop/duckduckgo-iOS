@@ -168,8 +168,11 @@
         <!--Tag Selector View Controller-->
         <scene sceneID="lwi-dG-E6u">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Br3-3o-avl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="JXB-H9-u2O" customClass="TagSelectorViewController" customModule="DuckDuckGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zJU-hJ-cww"/>
+                        <viewControllerLayoutGuide type="bottom" id="i8g-h0-agL"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8iq-qv-3wl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="42"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -231,6 +234,27 @@
                                             <outlet property="label" destination="lmj-k3-qPV" id="SF2-Bw-58q"/>
                                         </connections>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Dismiss" id="6YF-1l-9nl" customClass="DismissSelectedTagCell" customModule="DuckDuckGo" customModuleProvider="target">
+                                        <rect key="frame" x="68.5" y="0.0" width="50" height="42"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="42"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ClearText" translatesAutoresizingMaskIntoConstraints="NO" id="h3u-bE-N4E">
+                                                    <rect key="frame" x="13" y="9" width="24" height="24"/>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="h3u-bE-N4E" firstAttribute="centerX" secondItem="6YF-1l-9nl" secondAttribute="centerX" id="dDB-1F-PPb"/>
+                                            <constraint firstItem="h3u-bE-N4E" firstAttribute="centerY" secondItem="6YF-1l-9nl" secondAttribute="centerY" id="f4s-FW-li0"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="clearImage" destination="h3u-bE-N4E" id="vJI-V3-DTs"/>
+                                        </connections>
+                                    </collectionViewCell>
                                 </cells>
                             </collectionView>
                         </subviews>
@@ -245,11 +269,13 @@
                         <outlet property="collectionView" destination="rR5-fb-klJ" id="szj-p7-ong"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Br3-3o-avl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3205.5999999999999" y="668.36581709145435"/>
         </scene>
     </scenes>
     <resources>
+        <image name="ClearText" width="24" height="24"/>
         <image name="GlobeSmall" width="24" height="24"/>
     </resources>
 </document>

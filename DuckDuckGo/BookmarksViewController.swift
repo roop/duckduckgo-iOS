@@ -43,6 +43,12 @@ class BookmarksViewController: UIViewController {
         applyTheme(ThemeManager.shared.currentTheme)
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let controller = segue.destination as? TagSelectorViewController {
+            controller.tags = ["entertainment", "technology", "games"]
+        }
+    }
+
     private func addAplicationActiveObserver() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onApplicationBecameActive),

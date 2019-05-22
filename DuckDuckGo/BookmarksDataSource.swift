@@ -22,10 +22,22 @@ import Core
 
 class BookmarksDataSource: NSObject, UITableViewDataSource {
 
-    private lazy var bookmarksManager: BookmarksManager = BookmarksManager()
+    lazy var bookmarksManager: BookmarksManager = BookmarksManager()
 
     var isEmpty: Bool {
         return bookmarksManager.bookmarksCount == 0
+    }
+
+    var tags: [String] {
+        return bookmarksManager.tags
+    }
+
+    func filterByName(_ name: String) {
+        bookmarksManager.filter(name)
+    }
+
+    func clearFilter() {
+        bookmarksManager.filter(nil)
     }
 
     func link(at indexPath: IndexPath) -> Link? {

@@ -24,7 +24,11 @@ class TagSelectorViewController: UIViewController {
 
     var selectedTag: String?
 
-    var tags: [String]?
+    var tags: [String]? {
+        didSet {
+            collectionView?.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -149,19 +153,9 @@ class TagCollectionViewCell: UICollectionViewCell, SelectableTagCell {
     func selected(controller: TagSelectorViewController, atIndexPath indexPath: IndexPath) {
         guard controller.selectedTag == nil else { return }
         guard let name = name else { return }
-        guard let tags = controller.tags else { return }
-
-        var deletedItems = [IndexPath]()
-
-        for index in 2 ..< tags.count {
-            deletedItems.append(IndexPath(row: index, section: 0))
-        }
 
         controller.selectedTag = name
         controller.delegate?.tagSelected(name: name)
-        controller.collectionView.deleteItems(at: deletedItems)
-        controller.collectionView.reloadItems(at: [
-            IndexPath(row: 0, section: 0),
-            IndexPath(row: 1, section: 0)])
+        controller.collectionView.reloadData()
     }
 }

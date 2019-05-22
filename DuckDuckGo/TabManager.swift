@@ -100,7 +100,7 @@ class TabManager {
             current?.dismiss()
         }
 
-        let link = url == nil ? nil : Link(title: nil, url: url!)
+        let link = url == nil ? nil : Link(title: nil, url: url!, tags: nil)
         let tab = Tab(link: link)
         tab.viewed = !inBackground
         let controller = buildController(forTab: tab, url: url)

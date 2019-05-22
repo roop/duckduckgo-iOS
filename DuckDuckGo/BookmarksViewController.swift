@@ -26,6 +26,7 @@ class BookmarksViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
 
     weak var delegate: BookmarksDelegate?
+    weak var tagsController: TagSelectorViewController?
     
     private lazy var appSettings = AppDependencyProvider.shared.appSettings
 
@@ -45,7 +46,9 @@ class BookmarksViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? TagSelectorViewController {
-            controller.tags = ["entertainment", "technology", "games"]
+            tagsController = controller
+            tagsController?.delegate = self
+            updateTags()
         }
     }
 
@@ -113,11 +116,16 @@ class BookmarksViewController: UIViewController {
             bookmark: link,
             saveCompletion: { [weak self] (updatedBookmark) in
                 self?.dataSource.tableView(self!.tableView, updateBookmark: updatedBookmark, at: indexPath)
+                self?.updateTags()
             }
         )
         present(alert, animated: true)
     }
-    
+
+    private func updateTags() {
+        tagsController?.tags = dataSource.tags
+    }
+
     fileprivate func showShareSheet(for indexPath: IndexPath) {
 
         if let link = dataSource.link(at: indexPath) {
@@ -175,4 +183,18 @@ extension BookmarksViewController: Themable {
         
         tableView.reloadData()
     }
+}
+
+extension BookmarksViewController: TagSelectorDelegate {
+
+    func tagSelected(name: String) {
+        dataSource.filterByName(name)
+        tableView.reloadData()
+    }
+
+    func clearTagSelection() {
+        dataSource.clearFilter()
+        tableView.reloadData()
+    }
+
 }

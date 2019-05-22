@@ -22,8 +22,6 @@ import Core
 
 class BookmarksAndFavoritesDataSource: BookmarksDataSource {
     
-    private lazy var bookmarksManager: BookmarksManager = BookmarksManager()
-    
     override var isEmpty: Bool {
         return bookmarksManager.favoritesCount == 0 && bookmarksManager.bookmarksCount == 0
     }

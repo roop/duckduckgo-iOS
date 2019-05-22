@@ -106,7 +106,7 @@ class TabViewController: UIViewController {
     public var link: Link? {
         if isError {
             if let url = url ?? webView.url ?? URL(string: "") {
-                return Link(title: errorText, url: url)
+                return Link(title: errorText, url: url, tags: nil)
             }
         }
         
@@ -114,7 +114,7 @@ class TabViewController: UIViewController {
             return tabModel.link
         }
         
-        let activeLink = Link(title: name, url: url)
+        let activeLink = Link(title: name, url: url, tags: nil)
         guard let storedLink = tabModel.link else {
             return activeLink
         }

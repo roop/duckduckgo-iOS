@@ -24,30 +24,35 @@ public class Link: NSObject, NSCoding {
     private struct NSCodingKeys {
         static let title = "title"
         static let url = "url"
+        static let tags = "tags"
     }
 
     public let title: String?
     public let url: URL
-    
+    public let tags: [String]?
+
     public var displayTitle: String? {
         let host = url.host?.dropPrefix(prefix: "www.") ?? url.absoluteString
         return (title?.isEmpty ?? true) ? host : title
     }
 
-    public required init(title: String?, url: URL) {
+    public required init(title: String?, url: URL, tags: [String]?) {
         self.title = title
         self.url = url
+        self.tags = tags
     }
 
     public convenience required init?(coder decoder: NSCoder) {
         guard let url = decoder.decodeObject(forKey: NSCodingKeys.url) as? URL else { return nil }
         let title = decoder.decodeObject(forKey: NSCodingKeys.title) as? String
-        self.init(title: title, url: url)
+        let tags = decoder.decodeObject(forKey: NSCodingKeys.tags) as? [String]
+        self.init(title: title, url: url, tags: tags)
     }
 
     public func encode(with coder: NSCoder) {
         coder.encode(title, forKey: NSCodingKeys.title)
         coder.encode(url, forKey: NSCodingKeys.url)
+        coder.encode(tags, forKey: NSCodingKeys.tags)
     }
 
     public override func isEqual(_ other: Any?) -> Bool {
@@ -65,6 +70,11 @@ public class Link: NSObject, NSCoding {
         }
 
         let mergeTitle = (title == nil || title!.isEmpty) ? other.title : title
-        return Link(title: mergeTitle, url: url)
+
+        var tags = Set<String>()
+        other.tags?.forEach { tags.insert($0) }
+        self.tags?.forEach { tags.insert($0) }
+
+        return Link(title: mergeTitle, url: url, tags: [String](tags))
     }
 }

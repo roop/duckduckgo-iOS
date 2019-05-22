@@ -38,6 +38,7 @@ private class ValidatingAlert: UIAlertController {
     
     var titleField: UITextField!
     var urlField: UITextField!
+    var tagsField: UITextField!
     var saveAction: UIAlertAction!
     
     convenience init(title: String,
@@ -63,7 +64,15 @@ private class ValidatingAlert: UIAlertController {
             textField.keyboardType = .URL
             self.urlField = textField
         }
-        
+        addTextField { textField in
+            textField.accessibilityLabel = "Tags"
+            textField.text = link?.tags?.joined(separator: " ")
+            textField.placeholder = "Tags"
+            textField.keyboardAppearance = keyboardAppearance
+            textField.keyboardType = .alphabet
+            self.tagsField = textField
+        }
+
         titleField.addTarget(self, action: #selector(onTextChanged), for: .allEditingEvents)
         urlField.addTarget(self, action: #selector(onTextChanged), for: .allEditingEvents)
         
@@ -84,8 +93,10 @@ private class ValidatingAlert: UIAlertController {
             }
             
             guard let url = urlString.punycodedUrl else { return }
-            
-            completion(Link(title: title, url: url))
+
+            let tags = self.tagsField.text?.split(separator: " ").map { String($0) }
+
+            completion(Link(title: title, url: url, tags: tags))
         }
     }
     

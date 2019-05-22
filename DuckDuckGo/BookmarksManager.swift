@@ -28,25 +28,43 @@ class BookmarksManager {
     }
 
     var bookmarksCount: Int {
-        return dataStore.bookmarks.count
+        return bookmarks().count
     }
     
     var favoritesCount: Int {
-        return dataStore.favorites.count
+        return favorites().count
+    }
+
+    var tags: [String] {
+        return [String](Set<String>((dataStore.bookmarks + dataStore.favorites).compactMap { $0.tags }.flatMap { $0 })).sorted()
+    }
+
+    var tagFilter: String?
+
+    func filter(_ tag: String?) {
+        tagFilter = tag
+    }
+
+    private func bookmarks() -> [Link] {
+        return dataStore.bookmarks.filter(includeLink)
+    }
+
+    private func favorites() -> [Link] {
+        return dataStore.favorites.filter(includeLink)
+    }
+
+    private func includeLink(link: Link) -> Bool {
+        return tagFilter == nil || link.tags?.contains(tagFilter!) ?? true
     }
 
     func bookmark(atIndex index: Int) -> Link? {
-        return link(at: index, in: dataStore.bookmarks)
+        let links = bookmarks()
+        return links.count > index ? links[index] : nil
     }
 
     func favorite(atIndex index: Int) -> Link? {
-        return link(at: index, in: dataStore.favorites)
-    }
-    
-    private func link(at index: Int, in links: [Link]?) -> Link? {
-        guard let links = links else { return nil }
-        guard links.count > index else { return nil }
-        return links[index]
+        let links = favorites()
+        return links.count > index ? links[index] : nil
     }
 
     func save(bookmark: Link) {
@@ -129,18 +147,16 @@ class BookmarksManager {
         dataStore.bookmarks = bookmarks
     }
 
-    private func indexOfBookmark(url: URL) -> Int? {
-        let bookmarks = dataStore.bookmarks
-        return indexOf(url, in: bookmarks)
-    }
-    
     func contains(url: URL) -> Bool {
         return nil != indexOfFavorite(url: url) || nil != indexOfBookmark(url: url)
     }
 
+    private func indexOfBookmark(url: URL) -> Int? {
+        return indexOf(url, in: bookmarks())
+    }
+
     private func indexOfFavorite(url: URL) -> Int? {
-        let favorites = dataStore.favorites
-        return indexOf(url, in: favorites)
+        return indexOf(url, in: favorites())
     }
     
     private func indexOf(_ url: URL, in links: [Link]) -> Int? {

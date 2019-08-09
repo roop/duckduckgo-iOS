@@ -84,6 +84,7 @@ class MainViewController: UIViewController {
     weak var tabSwitcherController: TabSwitcherViewController?
     let tabSwitcherButton = TabSwitcherButton()
     let gestureBookmarksButton = GestureToolbarButton()
+    let gestureFireButton = GestureToolbarButton()
 
     fileprivate lazy var blurTransition = CompositeTransition(presenting: BlurAnimatedTransitioning(), dismissing: DissolveAnimatedTransitioning())
 
@@ -98,6 +99,7 @@ class MainViewController: UIViewController {
         chromeManager.delegate = self
         initTabButton()
         initBookmarksButton()
+        initFireButton()
         attachOmniBar()
         configureTabManager()
         loadInitialView()
@@ -185,6 +187,12 @@ class MainViewController: UIViewController {
         bookmarksButton.customView = gestureBookmarksButton
         bookmarksButton.isAccessibilityElement = true
         bookmarksButton.accessibilityTraits = .button
+    }
+    
+    private func initFireButton() {
+        gestureFireButton.delegate = self
+        gestureFireButton.image = UIImage(named: "Fire")
+        fireButton.customView = gestureFireButton
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -937,16 +945,41 @@ extension MainViewController: TabSwitcherButtonDelegate {
 extension MainViewController: GestureToolbarButtonDelegate {
     
     func singleTapDetected(in sender: GestureToolbarButton) {
-        Pixel.fire(pixel: .tabBarBookmarksPressed)
-        onBookmarksPressed()
+        sender.progressView.removeFromSuperview()
+
+        if sender == gestureBookmarksButton {
+            Pixel.fire(pixel: .tabBarBookmarksPressed)
+            onBookmarksPressed()
+        } else if sender == gestureFireButton {
+            onFirePressed()
+        }
+        
     }
     
     func longPressDetected(in sender: GestureToolbarButton) {
-        guard currentTab != nil else {
-            view.showBottomToast(UserText.webSaveBookmarkNone)
-            return
+        sender.progressView.removeFromSuperview()
+        
+        if sender == gestureBookmarksButton {
+            guard currentTab != nil else {
+                view.showBottomToast(UserText.webSaveBookmarkNone)
+                return
+            }
+            currentTab!.promptSaveBookmarkAction()
+        } else if sender == gestureFireButton {
+            forgetAll { }
         }
-        currentTab!.promptSaveBookmarkAction()
+    }
+    
+    func longPressStarted(in sender: GestureToolbarButton) {
+        print("***", #function)
+        view.addSubview(sender.progressView)
+        sender.progressView.center = view.center
+        sender.progressView.play()
+    }
+    
+    func longPressCanceled(in sender: GestureToolbarButton) {
+        print("***", #function)
+        sender.progressView.removeFromSuperview()
     }
     
 }

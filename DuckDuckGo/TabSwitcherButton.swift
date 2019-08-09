@@ -44,8 +44,8 @@ class TabSwitcherButton: UIView {
 
     var workItem: DispatchWorkItem?
 
-    let anim = LOTAnimationView(name: "new_tab")
     let tint = UIView(frame: .zero)
+    var anim = AnimationView(name: "new_tab")
     let label = UILabel()
     
     var tabCount: Int = 0 {
@@ -66,7 +66,7 @@ class TabSwitcherButton: UIView {
     
     var hasUnread: Bool = false {
         didSet {
-            anim.animationProgress = hasUnread ? 1.0 : 0.0
+            anim.currentProgress = hasUnread ? 1.0 : 0.0
         }
     }
     
@@ -92,7 +92,6 @@ class TabSwitcherButton: UIView {
         anim.frame = CGRect(x: 0, y: 0, width: 24, height: 24)
         anim.layer.masksToBounds = false
         anim.isUserInteractionEnabled = false
-        
         anim.center = CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
@@ -151,7 +150,10 @@ class TabSwitcherButton: UIView {
     }
     
     func incrementAnimated() {
-        anim.play()
+        anim.play { _ in
+            // otherwise plays again when view is shown (e.g. after another view controller disappears) 🤷‍♂️
+            self.anim.stop()
+        }
         UIView.animate(withDuration: Constants.labelFadeDuration, animations: {
             self.label.alpha = 0.0
         }, completion: { _ in
@@ -188,12 +190,11 @@ extension TabSwitcherButton: Themable {
 
         switch theme.currentImageSet {
         case .light:
-            anim.setAnimation(named: "new_tab_dark")
+            anim.animation = Animation.named("new_tab_dark")
         case .dark:
-            anim.setAnimation(named: "new_tab")
+            anim.animation = Animation.named("new_tab")
         }
 
-        addSubview(anim)
         configureAnimationView()
     }
 }
